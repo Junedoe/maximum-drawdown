@@ -97,7 +97,7 @@ class CalcMdd extends Component {
             let fromMaxToEnd = yArray.slice(maxValueIndex);
             let peakValue = Math.min(...fromMaxToEnd);
             // 2.c.)
-            this.state.maxDrawdown = (maxValue - peakValue) / peakValue;
+            this.state.maxDrawdown = ((maxValue - peakValue) / peakValue).toFixed(2);
 
             this.setState({ isLoading: false });
         } catch (error) {
@@ -117,31 +117,37 @@ class CalcMdd extends Component {
         }
 
         return (
-            <div>
+            <div className="main">
                 <h1>Calculate the Maximum Drawdown (MDD)</h1>
-                <form>
-                    Ticker <br />
-                    <input
-                        type="text"
-                        value={this.state.ticker}
-                        onChange={e => this.handleInputChange('ticker', e)}
-                    />{' '}
-                    <br />
-                    Start date <br />
-                    <input
-                        type="date"
-                        value={this.state.startDate}
-                        onChange={e => this.handleInputChange('startDate', e)}
-                    />{' '}
-                    <div className="mdd">MDD : {this.state.maxDrawdown}</div>
-                    <br />
-                    <button className="sl-btn" onClick={e => this.handleClick(e)}>
-                        Show
-                    </button>
-                    <div className="graph">
-                        <Line data={this.state.data} width={20} height={10} options={{}} />
+                <div className="content">
+                    <div id="form-container">
+                        <form>
+                            TICKER <br />
+                            <input
+                                type="text"
+                                value={this.state.ticker}
+                                onChange={e => this.handleInputChange('ticker', e)}
+                            />{' '}
+                            <br />
+                            START DATE <br />
+                            <input
+                                type="date"
+                                value={this.state.startDate}
+                                onChange={e => this.handleInputChange('startDate', e)}
+                            />{' '}
+                            <button className="sl-btn" onClick={e => this.handleClick(e)}>
+                                SHOW
+                            </button>
+                            <br />
+                            <div className="mdd">
+                                MDD : {this.state.maxDrawdown} % <br />
+                            </div>
+                        </form>
                     </div>
-                </form>
+                    <div className="graph">
+                        <Line data={this.state.data} options={{ maintainAspectRatio: false }} />
+                    </div>
+                </div>
             </div>
         );
     }
