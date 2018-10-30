@@ -2,9 +2,26 @@
     margin: 0;
     font-family: 'Gill Sans';
 }
+.header {
+    background-color: rgba(75, 192, 192, 0.637);
+    height: 13vh;
+    width: 100vw;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.header h1 {
+    margin-top: 2%;
+    text-align: center;
+    font-family: 'Gill Sans MT', sans-serif;
+    font-weight: 100;
+    color: #4b4a4a;
+}
+
 .content {
     display: flex;
-    margin: 5% 5%;
+    margin: 10% 5% 5%;
 }
 #form-container {
     width: 300px;
@@ -12,11 +29,12 @@
     padding: 4%;
     border: 1px solid #464646;
     border-radius: 4px;
+    font-size: 18px;
     align-content: center;
 }
 
 #form-container form input {
-    font-size: 20px;
+    font-size: 18px;
     padding: 5%;
     margin-bottom: 15px;
     margin-top: 5%;
@@ -26,23 +44,24 @@
     border-radius: 4px;
 }
 
-.sl-btn {
-    margin: auto;
-    border: rgba(75, 192, 192, 0.657) solid 2px;
+button {
+    background-color: rgb(255, 255, 255);
+    border: rgb(75, 192, 192) solid 2px;
+    color: rgb(65, 65, 65);
+    text-align: left;
+    margin: 5% auto;
     border-radius: 4px;
     outline: 0;
     display: inline-block;
-    padding: 8px;
+    padding: 5% 0% 5% 5%;
     cursor: pointer;
     width: 60%;
-    font-size: 16px;
+    font-size: 18px;
 }
-
-h1 {
-    margin-top: 2%;
-    text-align: center;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-weight: 400;
+button:hover {
+    border: rgba(75, 192, 192, 0) solid 2px;
+    background-color: rgb(75, 192, 192);
+    color: rgb(255, 255, 255);
 }
 
 .graph {
@@ -59,11 +78,11 @@ p {
     margin-top: 20%;
 }
 .mdd {
-    font-size: 20px;
+    font-size: 18px;
     padding: 5%;
     margin-bottom: 15px;
     margin-top: 5%;
-    border: rgba(75, 192, 192, 0.657) solid 2px;
+    border: rgba(44, 109, 109, 0.657) solid 2px;
     display: inline-block;
     border-radius: 4px;
 }

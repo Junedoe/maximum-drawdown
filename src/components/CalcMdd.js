@@ -106,41 +106,37 @@ class CalcMdd extends Component {
     }
 
     render() {
-        const { isLoading, error } = this.state;
+        const { error } = this.state;
 
         if (error) {
             return <p>{error.message}</p>;
         }
-
-        if (isLoading) {
-            return <p>Loading ...</p>;
-        }
-
         return (
-            <div className="main">
-                <h1>Calculate the Maximum Drawdown (MDD)</h1>
+            <div>
+                <div className="header">
+                    <h1>Calculate the Maximum Drawdown (MDD)</h1>
+                </div>
                 <div className="content">
                     <div id="form-container">
                         <form>
-                            TICKER <br />
+                            1. Type in ticker <br />
                             <input
                                 type="text"
                                 value={this.state.ticker}
                                 onChange={e => this.handleInputChange('ticker', e)}
                             />{' '}
                             <br />
-                            START DATE <br />
+                            2. Select start date
+                            <br />
                             <input
                                 type="date"
                                 value={this.state.startDate}
                                 onChange={e => this.handleInputChange('startDate', e)}
                             />{' '}
-                            <button className="sl-btn" onClick={e => this.handleClick(e)}>
-                                SHOW
-                            </button>
+                            <button onClick={e => this.handleClick(e)}>SHOW</button>
                             <br />
                             <div className="mdd">
-                                MDD : {this.state.maxDrawdown} % <br />
+                                Calculated MDD is : {this.state.maxDrawdown} % <br />
                             </div>
                         </form>
                     </div>
