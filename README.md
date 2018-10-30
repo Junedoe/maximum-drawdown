@@ -1,44 +1,53 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Maximum Drawdown
 
-## Available Scripts
+Maximum Drawdown is a simple Web App that displays the market history of a certain stock and calculates the maximum drawdown from a the start date till today.
 
-In the project directory, you can run:
+"A maximum drawdown (MDD) is the maximum loss from a peak to a trough of a portfolio, before a new peak is attained. Maximum Drawdown (MDD) is an indicator of downside risk over a specified time period. It can be used both as a stand-alone measure or as an input into other metrics such as "Return over Maximum Drawdown" and the Calmar Ratio. Maximum Drawdown is expressed in percentage terms and computed as:
 
-### `npm start`
+MDD = (Trough Value – Peak Value) ÷ Peak Value"
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Read more: Maximum Drawdown (MDD) Definition | Investopedia https://www.investopedia.com/terms/m/maximum-drawdown-mdd.asp#ixzz5VPRps7qM
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+To query the Quandl stock market data you will need to create an account to get you API key [here](https://www.quandl.com/sign-up-modal?defaultModal=showSignUp).
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Installing
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+A step by step series of examples that tell you how to get a development env running
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+First you need to clone the project
 
-### `npm run eject`
+```
+$ git clone https://github.com/Junedoe/maximum-drawdown.git
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Change your directory:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+$ cd maximum-drawdown
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Install all the dependencies:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+$ npm i --save
+```
 
-## Learn More
+In order to run the application, you need to have a terminal window opened and run this command:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+$ npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Files to add
+
+You should have a `server/.env` file with the following values:
+
+```
+REACT_APP_API_KEY= // -> Here your API Key
+```
