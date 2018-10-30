@@ -46,19 +46,24 @@ class CalcMdd extends Component {
             }
         };
     }
+
     handleInputChange(stateFieldName, event) {
         this.setState({
             [stateFieldName]: event.target.value
         });
     }
-    /*
+    /* 
     1.) To Visualize the data in a graph:
         a) Access and visualize the data
         b) Create an array (xArray) with the dates
         c) Create an Array (yArray) with the values
         d.) refer xArray and yArray values to the state
-    */
 
+    2.) To calculate the maximum drawdown onClick:
+        a.) Determine the point of maximum Value (maxValue) of the graph (yArray) and the index of maxValue
+        b.) From point of maximum Value find the Peak Value
+        c.) Calculate MDD = (Trough Value – Peak Value) ÷ Peak Value
+    */
     async handleClick(e) {
         e.preventDefault();
         this.setState({ isLoading: true });
@@ -85,6 +90,15 @@ class CalcMdd extends Component {
             this.state.data.labels = xArray;
             this.state.data.datasets[0].data = yArray;
 
+            // 2.a)
+            let maxValue = Math.max(...yArray);
+            let maxValueIndex = yArray.indexOf(maxValue);
+            // 2.b)
+            let fromMaxToEnd = yArray.slice(maxValueIndex);
+            let peakValue = Math.min(...fromMaxToEnd);
+            // 2.c.)
+            this.state.maxDrawdown = (maxValue - peakValue) / peakValue;
+
             this.setState({ isLoading: false });
         } catch (error) {
             this.setState({ isLoading: false, error });
@@ -101,6 +115,7 @@ class CalcMdd extends Component {
         if (isLoading) {
             return <p>Loading ...</p>;
         }
+
         return (
             <div>
                 <h1>Calculate the Maximum Drawdown (MDD)</h1>
