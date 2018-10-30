@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Line } from 'react-chartjs-2';
 
 const apiKey = process.env.REACT_APP_API_KEY;
 
@@ -15,7 +16,34 @@ class CalcMdd extends Component {
             startDate: '2010-01-01',
             maxDrawdown: '0',
             isLoading: false,
-            error: null
+            error: null,
+            data: {
+                // data = for use of react-chartjs-2
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Stock market',
+                        fill: false,
+                        lineTension: 0.1,
+                        backgroundColor: 'rgba(75,192,192,0.4)',
+                        borderColor: 'rgba(75,192,192,1)',
+                        borderCapStyle: 'butt',
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: 'rgba(75,192,192,1)',
+                        pointBackgroundColor: '#fff',
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+                        pointHoverBorderColor: 'rgba(220,220,220,1)',
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
+                        pointHitRadius: 10,
+                        data: []
+                    }
+                ]
+            }
         };
     }
     handleInputChange(stateFieldName, event) {
@@ -23,6 +51,13 @@ class CalcMdd extends Component {
             [stateFieldName]: event.target.value
         });
     }
+    /*
+    1.) To Visualize the data in a graph:
+        a) Access and visualize the data
+        b) Create an array (xArray) with the dates
+        c) Create an Array (yArray) with the values
+        d.) refer xArray and yArray values to the state
+    */
 
     async handleClick(e) {
         e.preventDefault();
@@ -39,7 +74,16 @@ class CalcMdd extends Component {
                 '&collapse=monthly&transform=rdiff&api_key=' +
                 apiKey;
 
+            // 1.a)
             const result = await axios.get(Url);
+            let dataset = result.data.dataset.data;
+            // 1.b)
+            let xArray = dataset.map(val => val[0]);
+            // 1.c)
+            let yArray = dataset.map(val => val[1]);
+            // 1.d.)
+            this.state.data.labels = xArray;
+            this.state.data.datasets[0].data = yArray;
 
             this.setState({ isLoading: false });
         } catch (error) {
@@ -79,6 +123,9 @@ class CalcMdd extends Component {
                     <button className="sl-btn" onClick={e => this.handleClick(e)}>
                         Show
                     </button>
+                    <div className="graph">
+                        <Line data={this.state.data} width={20} height={10} options={{}} />
+                    </div>
                 </form>
             </div>
         );
