@@ -52,18 +52,15 @@ class CalcMdd extends Component {
             [stateFieldName]: event.target.value
         });
     }
-    /* 
-    1.) To Visualize the data in a graph:
-        a) Access and visualize the data
-        b) Create an array (xArray) with the dates
-        c) Create an Array (yArray) with the values
-        d.) refer xArray and yArray values to the state
 
-    2.) To calculate the maximum drawdown onClick:
-        a.) Determine the point of maximum Value (maxValue) of the graph (yArray) and the index of maxValue
-        b.) From point of maximum Value find the Peak Value
-        c.) Calculate MDD = (Trough Value – Peak Value) ÷ Peak Value
+    /*
+    1.) To Visualize the data in a graph:
+    a) Access and visualize the data
+    b) Create an array (xArray) with the dates
+    c) Create an Array (yArray) with the values
+    d.) refer xArray and yArray values to the state
     */
+
     async handleClick(e) {
         e.preventDefault();
         this.setState({ isLoading: true });
@@ -76,7 +73,7 @@ class CalcMdd extends Component {
                 '&end_date=' +
                 currentDate +
                 adjClose +
-                '&collapse=monthly&transform=rdiff&api_key=' +
+                '&collapse=daily&transform=rdiff&api_key=' +
                 apiKey;
 
             // 1.a)
@@ -87,17 +84,22 @@ class CalcMdd extends Component {
             // 1.c)
             let yArray = dataset.map(val => val[1]);
             // 1.d.)
-            this.state.data.labels = xArray;
+            this.state.data.labels = xArray.reverse();
             this.state.data.datasets[0].data = yArray;
 
-            // 2.a)
-            let maxValue = Math.max(...yArray);
-            let maxValueIndex = yArray.indexOf(maxValue);
-            // 2.b)
-            let fromMaxToEnd = yArray.slice(maxValueIndex);
-            let peakValue = Math.min(...fromMaxToEnd);
-            // 2.c.)
-            this.state.maxDrawdown = ((maxValue - peakValue) / peakValue).toFixed(2);
+            let maxDdArr = [];
+            let pricesArray = [...yArray];
+            do {
+                let yIndex = pricesArray.indexOf(Math.max(...pricesArray));
+                let xArr = pricesArray.slice(yIndex, pricesArray.length);
+                let zIndex = xArr.indexOf(Math.min(...xArr));
+
+                let maxD = (xArr[zIndex] - pricesArray[yIndex]) / pricesArray[yIndex];
+                maxDdArr.push(maxD);
+                pricesArray.splice(yIndex, pricesArray.length);
+            } while (pricesArray.length > 0);
+
+            this.state.maxDrawdown = (Math.min(...maxDdArr) * 100).toFixed(1);
 
             this.setState({ isLoading: false });
         } catch (error) {
