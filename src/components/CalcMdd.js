@@ -76,7 +76,7 @@ class CalcMdd extends Component {
                 '&end_date=' +
                 currentDate +
                 adjClose +
-                '&collapse=monthly&transform=rdiff&api_key=' +
+                '&collapse=daily&transform=rdiff&api_key=' +
                 apiKey;
 
             // 1.a)
