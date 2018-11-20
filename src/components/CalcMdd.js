@@ -73,7 +73,7 @@ class CalcMdd extends Component {
                 '&end_date=' +
                 currentDate +
                 adjClose +
-                '&collapse=daily&transform=rdiff&api_key=' +
+                '&collapse=daily&api_key=' +
                 apiKey;
 
             // 1.a)
@@ -87,8 +87,14 @@ class CalcMdd extends Component {
             this.state.data.labels = xArray.reverse();
             this.state.data.datasets[0].data = yArray;
 
+            let adjClosingPrices = yArray.reverse();
+            this.state.data.datasets[0].data = adjClosingPrices;
+
             let maxDdArr = [];
             let pricesArray = [...yArray];
+
+            // -> first solution: do...while loop
+
             do {
                 let yIndex = pricesArray.indexOf(Math.max(...pricesArray));
                 let xArr = pricesArray.slice(yIndex, pricesArray.length);
@@ -99,7 +105,23 @@ class CalcMdd extends Component {
                 pricesArray.splice(yIndex, pricesArray.length);
             } while (pricesArray.length > 0);
 
+            // -> second faster/better solution, one loop only:
+
             this.state.maxDrawdown = (Math.min(...maxDdArr) * 100).toFixed(1);
+            let maxDrawdown;
+            let currentMax = adjClosingPrices[0];
+            let currentPrice;
+            let currentDrawdown;
+            let i;
+
+            for (i = 1; i < adjClosingPrices.length; i++) {
+                currentPrice = adjClosingPrices[i];
+                currentDrawdown = (currentPrice - currentMax) / currentMax;
+                maxDrawdown = currentDrawdown < maxDrawdown ? currentDrawdown : maxDrawdown;
+                currentMax = currentPrice > currentMax ? currentPrice : currentMax;
+            }
+
+            this.state.maxDrawdown = maxDrawdown;
 
             this.setState({ isLoading: false });
         } catch (error) {
